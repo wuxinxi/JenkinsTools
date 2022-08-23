@@ -1,0 +1,99 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin  xmlns:xi="http://www.w3.org/2001/XInclude" require-restart="false">
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>cn.xxstudy.jenkins.tools</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>JenkinsTools</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="996489865@qq.com" url="https://www.xxstudy.com">TangRen</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Jenkins build tools.<br>
+  ]]></description>
+
+<!--    <idea-version since-build="212.4638"/>-->
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="cn.xxstudy.jenkins.tools-VcsSupport.xml">com.intellij.modules.vcs</depends>
+    <depends optional="true" config-file="cn.xxstudy.jenkins.tools-LangSupport.xml">com.intellij.modules.lang</depends>
+    <depends optional="true" config-file="cn.xxstudy.jenkins.tools-JavaSupport.xml">com.intellij.java</depends>
+    <xi:include href="/META-INF/cn.xxstudy.jenkins.tools-JobParameterRenderer.xml" xpointer="xpointer(/idea-plugin/*)"/>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable parentId="tools" groupWeight="110" dynamic="true" displayName="Jenkins Plugin"
+                             id="preferences.Jenkins" instance="cn.xxstudy.jenkins.tools.JenkinsComponent"/>
+
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.ExecutorService"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.LoginService"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.JenkinsAppSettings"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.JenkinsSettings"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.JenkinsWindowManager"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.view.JenkinsWidget"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.RequestManager"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.UrlBuilder"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.view.BrowserPanel"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.RssLogic"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.BrowserPanelAuthenticationHandler"/>
+        <projectService serviceImplementation="cn.xxstudy.jenkins.tools.logic.RssAuthenticationActionHandler"/>
+
+        <backgroundPostStartupActivity implementation="cn.xxstudy.jenkins.tools.StartupJenkinsService"/>
+
+        <toolWindow id="Jenkins"
+                    anchor="right"
+                    canCloseContents="false"
+                    factoryClass="cn.xxstudy.jenkins.tools.JenkinsToolWindowFactory"
+                    doNotActivateOnStart="false"
+                    icon="JenkinsControlIcons.JENKINS_TOOLWINDOW_ICON"/>
+        <toolWindow id="Job test results"
+                    anchor="bottom"
+                    canCloseContents="true"
+                    doNotActivateOnStart="true"
+                    icon="JenkinsControlIcons.TOOLWINDOW_TEST_RESULTS"
+                    factoryClass="cn.xxstudy.jenkins.tools.view.action.results.JobTestResultsToolWindowFactory"/>
+        <toolWindow id="JenkinsLogs"
+                    anchor="bottom"
+                    canCloseContents="true"
+                    doNotActivateOnStart="true"
+                    icon="JenkinsControlIcons.JENKINS_TOOLWINDOW_ICON"
+                    factoryClass="cn.xxstudy.jenkins.tools.view.action.LogToolWindowFactory"/>
+        <statusBarWidgetFactory implementation="cn.xxstudy.jenkins.tools.BuildStatusSummaryFactory"/>
+        <aboutPopupDescriptionProvider implementation="cn.xxstudy.jenkins.tools.view.JenkinsAbout"/>
+        <notificationGroup displayType="NONE" id="Jenkins Rss"/>
+        <notificationGroup displayType="TOOL_WINDOW" id="Jenkins Notification" toolWindowId="Jenkins"/>
+    </extensions>
+
+    <actions>
+        <action id="Jenkins.LoadBuilds" class="cn.xxstudy.jenkins.tools.view.action.LoadBuildsAction"
+                text="Load Builds"
+                description="Load builds for selected Job"
+                icon="JenkinsControlIcons.LOAD_BUILDS">
+            <override-text place="GoToAction" text="Jenkins: Load Builds"/>
+        </action>
+        <action id="Jenkins.RunBuild" class="cn.xxstudy.jenkins.tools.view.action.RunBuildAction"
+                text="Build on Jenkins"
+                description="Run a build on Jenkins Server"
+                icon="AllIcons.Actions.Execute">
+            <override-text place="GoToAction" text="Jenkins: Build on Jenkins"/>
+        </action>
+    </actions>
+
+    <extensionPoints>
+        <extensionPoint name="viewTestResults"
+                        interface="cn.xxstudy.jenkins.tools.view.extension.ViewTestResults"
+                        dynamic="true"/>
+        <extensionPoint name="buildParameterRenderer"
+                        interface="cn.xxstudy.jenkins.tools.view.extension.JobParameterRenderer"
+                        dynamic="true"/>
+    </extensionPoints>
+</idea-plugin>

@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="cn.xxstudy.jenkins.tools">
+        <viewTestResults implementation="cn.xxstudy.jenkins.tools.view.extension.ViewTestResultsAsJUnit"/>
+    </extensions>
+</idea-plugin>

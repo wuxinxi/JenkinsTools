@@ -1,0 +1,19 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="cn.xxstudy.jenkins.tools">
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.BuiltInJobParameterRenderer"
+                                order="first"
+                                id="BUILT_IN_RENDERER" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.SeparatorRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.NodeParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.HiddenParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.PatchParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.GitParameterRenderer" />
+        <buildParameterRenderer
+                implementation="cn.xxstudy.jenkins.tools.view.parameter.PersistentParameterRenderer"/>
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.ListGitBranchesParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.ExtendedChoiceParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.DateParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.ExtensibleChoiceParameterRenderer" />
+        <buildParameterRenderer implementation="cn.xxstudy.jenkins.tools.view.parameter.ActiveChoicesParameterRenderer" />
+    </extensions>
+</idea-plugin>
